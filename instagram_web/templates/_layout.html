@@ -33,8 +33,6 @@
               Nextagram 
               <span class="sr-only">(current)</span>
             </a>
-            <a class="nav-item nav-link" href="{{ url_for('users.new') }}">Sign In</a> 
-            <a class="nav-item nav-link" href="{{ url_for('sessions.new') }}">Login</a>     
           </div>
         </div>
         <form class="form-inline my-2 my-lg-0">
@@ -42,8 +40,13 @@
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search">Search</button>
         </form>
         {% if session['user_id'] %}
-        <div>
+        <div class="navbar-nav">
            <a class="nav-item nav-link" href="{{ url_for('sessions.destroy') }}">Sign Out</a>
+        </div>
+        {% else %}
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="{{ url_for('users.new') }}">Sign In</a> 
+            <a class="nav-item nav-link" href="{{ url_for('sessions.new') }}">Login</a>    
         </div>
         {% endif %}
     </nav>
