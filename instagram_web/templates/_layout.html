@@ -34,16 +34,18 @@
               <span class="sr-only">(current)</span>
             </a>
             <a class="nav-item nav-link" href="{{ url_for('users.new') }}">Sign In</a> 
-            <a class="nav-item nav-link" href="{{ url_for('users.index') }}">Login</a>         
+            <a class="nav-item nav-link" href="{{ url_for('sessions.new') }}">Login</a>     
           </div>
         </div>
         <form class="form-inline my-2 my-lg-0">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search">Search</button>
         </form>
+        {% if session['user_id'] %}
         <div>
-           <a class="nav-item nav-link" href="#">Sign Out</a>
+           <a class="nav-item nav-link" href="{{ url_for('sessions.destroy') }}">Sign Out</a>
         </div>
+        {% endif %}
     </nav>
     {% with messages = get_flashed_messages() %}
     {% if messages %}

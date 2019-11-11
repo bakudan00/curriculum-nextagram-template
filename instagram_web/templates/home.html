@@ -8,5 +8,8 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Homepage</h1>
+<h1>Homepage</h1>
+{% if session['user_id']%}
+  <h4>Hello</h4>
+{% endif %}
 {% endblock %}
