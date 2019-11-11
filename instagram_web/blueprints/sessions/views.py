@@ -1,7 +1,7 @@
 import peeweedbevolve
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from models.user import User
-from flask_login import login_user
+from flask_login import login_user, logout_user
 from werkzeug.security import check_password_hash
 
 
@@ -25,8 +25,7 @@ def create():
     if user:
         chk_password = check_password_hash(user.password, password)
         if chk_password:
-            session['user_id'] = user.id
-            # login_user(user)
+            login_user(user)
             flash('Login Success!!')
             return redirect(url_for('home'))
         else:
@@ -50,7 +49,7 @@ def edit(id):
 
 @sessions_blueprint.route('/delete')
 def destroy():
-    session.pop('user_id', None)
-    flash('log out success')
+    logout_user()
+    flash('successfully logout')
     return redirect(url_for('home'))
     

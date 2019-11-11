@@ -9,7 +9,9 @@
 
 {% block content %}
 <h1>Homepage</h1>
-{% if session['user_id']%}
-  <h4>Hello</h4>
+{% if current_user.is_authenticated%}
+  <h4>Hello {{ current_user.username }}, welcome back!</h4>
+{% else %}
+  <h4>Hello anonymous!</h4>
 {% endif %}
 {% endblock %}

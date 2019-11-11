@@ -1,6 +1,6 @@
 import os
 import config
-from flask import Flask
+from flask import Flask, render_template
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager
 from models.base_model import db
@@ -18,6 +18,15 @@ if os.getenv('FLASK_ENV') == 'production':
     app.config.from_object("config.ProductionConfig")
 else:
     app.config.from_object("config.DevelopmentConfig")
+
+#error handler 404 page not found
+@app.errorhandler(404)
+def not_found(e):
+    return render_template('404.html')
+
+@app.errorhandler(500)
+def internal_error(e):
+    return render_template('500.html')
 
 @login_manager.user_loader
 def load_user(user_id):

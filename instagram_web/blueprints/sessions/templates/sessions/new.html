@@ -9,6 +9,9 @@
 
 {% block content %}
 <h1>Login</h1>
+{% if error %}
+<p class=error><strong>Error:</strong> {{ error }}
+{% endif %}
 <form action="{{ url_for('sessions.create') }}" method="POST">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
     <div class="form-group">

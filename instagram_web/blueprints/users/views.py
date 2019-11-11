@@ -23,11 +23,11 @@ def create():
     user_create = User(username=username, email=email, password=password)
 
     if user_create.save():
-        flash("added successfully!")
+        flash('added successfully!')
         return redirect(url_for('users.new'))
     else:
         for errors in user_create.errors:
-            flash(errors, 'danger')
+            flash(errors)
             return render_template('users/new.html', username=username, email=email, password=password)
     
 @users_blueprint.route('/<username>', methods=["GET"])

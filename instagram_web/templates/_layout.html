@@ -39,7 +39,7 @@
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search">Search</button>
         </form>
-        {% if session['user_id'] %}
+        {% if current_user.is_authenticated %}
         <div class="navbar-nav">
            <a class="nav-item nav-link" href="{{ url_for('sessions.destroy') }}">Sign Out</a>
         </div>
@@ -52,9 +52,9 @@
     </nav>
     {% with messages = get_flashed_messages() %}
     {% if messages %}
-        <ul class=flashes>
+        <ul class="flashes list-group-item">
         {% for message in messages %}
-        <li>{{ message }}</li>
+          <li>{{ message }}</li>
         {% endfor %}
         </ul>
     {% endif %}
@@ -63,7 +63,6 @@
         {% block content %}
         {% endblock %}
     </div>
-
     <footer>
       Made with &hearts; at <a target="_blank" href="https://www.nextacademy.com/?utm_source=github&utm_medium=student-challenge&utm_campaign=flask-nextagram">NEXT Academy</a>
     </footer>
