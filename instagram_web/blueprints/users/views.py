@@ -1,7 +1,7 @@
 import peeweedbevolve
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from models.user import User
-from flask_login import login_user
+from flask_login import login_user, login_required, current_user
 
 
 users_blueprint = Blueprint('users',
@@ -39,9 +39,15 @@ def index():
     return "USERS"
 
 @users_blueprint.route('/<id>/edit', methods=['GET'])
+@login_required
 def edit(id):
-    pass
+    user = User.get_by_id(id)
+    if current_user.id == user.id:
+        return render_template('users/edit.html', id=id)
+    else:
+        flash(f"invalid access to {user.username} page")
+        return render_template('users/edit.html', id=id)
 
 @users_blueprint.route('/<id>', methods=['POST'])
 def update(id):
-    pass
+        pass

@@ -41,6 +41,7 @@
         </form>
         {% if current_user.is_authenticated %}
         <div class="navbar-nav">
+           <a class="nav-item nav-link" href="{{ url_for('users.edit', id=current_user.id) }}">Edit</a>
            <a class="nav-item nav-link" href="{{ url_for('sessions.destroy') }}">Sign Out</a>
         </div>
         {% else %}

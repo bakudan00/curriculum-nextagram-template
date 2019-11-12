@@ -1,7 +1,7 @@
 import peeweedbevolve
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from models.user import User
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required
 from werkzeug.security import check_password_hash
 
 
@@ -48,6 +48,7 @@ def edit(id):
     pass
 
 @sessions_blueprint.route('/delete')
+@login_required
 def destroy():
     logout_user()
     flash('successfully logout')
