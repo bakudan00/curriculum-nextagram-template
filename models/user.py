@@ -9,8 +9,10 @@ class User(UserMixin, BaseModel):
     username = pw.CharField(unique=True, null=False)
     email = pw.CharField(null=False, unique=True)
     password = pw.CharField(null=False)
+    role = pw.TextField(default='user')
+    profile = pw.TextField(null=True)
 
-    #validation on sign up page / edit page
+    #validation on sign up page
     def validate(self):
         duplicate_username = User.get_or_none(User.username == self.username)
         duplicate_email = User.get_or_none(User.email == self.email)

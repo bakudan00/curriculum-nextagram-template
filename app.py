@@ -28,6 +28,10 @@ def not_found(e):
 def internal_error(e):
     return render_template('500.html')
 
+@app.errorhandler(401)
+def unauthorized(e):
+    return render_template('401.html')
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.get_by_id(user_id)
