@@ -87,6 +87,7 @@ def upload_user(id):
                 return render_template('users/edit.html', id=id)
 
         else:
+            flash('the file is not jpeg, png, gif. please upload with correct format')
             return redirect(url_for('users.edit', id=id))
 
 
