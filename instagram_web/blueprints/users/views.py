@@ -1,6 +1,7 @@
 import peeweedbevolve
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from models.user import User
+from models.image import Image
 from flask_login import login_user, login_required, current_user
 from ...util.helpers import *
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -75,10 +76,16 @@ def upload_user(id):
         if file and allowed_file(file.filename):
             file.filename = secure_filename(file.filename)
             output = upload_file_to_s3(file, app.config["S3_BUCKET"])
-            # update_user = user.update(user.img_Profile=file)where.(user.id = current_user.id)
-            # update_user.execute()
-            flash('Upload' + ' ' + str(output) + ' ' + 'completed!')           
-            return redirect(url_for('users.edit', id=id))
+            updated_user = User.update(img_Profile= file.filename).where(User.id == current_user.id)
+            if updated_user.execute():
+                insert_image = Image(imageURL= file.filename, user_id=id)
+                insert_image.save()
+                flash('Upload' + ' ' + str(output) + ' ' + 'completed!')           
+                return redirect(url_for('users.edit', id=id))
+            else:
+                flash('the file is corrupted please try again')
+                return render_template('users/edit.html', id=id)
+
         else:
             return redirect(url_for('users.edit', id=id))
 

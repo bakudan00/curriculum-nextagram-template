@@ -48,15 +48,15 @@ def authorize_google():
     if not token:
         flash('unable to retrieved the token')
         return redirect(url_for('home'))
-        
-    email = oauth.google.get('https://www.googleapis.com/oauth2/v2/userinfo').json()['email']
-    user = User.get_or_none(email=email)
-    if not user:
-        flash('email not register yet')
-        return redirect(url_for('home'))
-    else:
-        login_user(user)
-        return redirect(url_for('home'))
+    else:       
+        email = oauth.google.get('https://www.googleapis.com/oauth2/v2/userinfo').json()['email']
+        user = User.get_or_none(email=email)
+        if not user:
+            flash('email not register yet')
+            return redirect(url_for('home'))
+        else:
+            login_user(user)
+            return redirect(url_for('home'))
 
     
 @sessions_blueprint.route('/<username>', methods=["GET"])

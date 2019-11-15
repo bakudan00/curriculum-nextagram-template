@@ -5,4 +5,4 @@ from models.user import User
 
 class Image(BaseModel):
     imageURL = pw.CharField(null=True)
-    user_id = pw.ForeignKeyField(User, backref="users", unique=True)
+    user_id = pw.ForeignKeyField(User, backref="users")
