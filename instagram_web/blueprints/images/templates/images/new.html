@@ -1,0 +1,17 @@
+{% extends "_layout.html"%}
+{% block title %}
+  Upload
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<h1>Upload picture</h1>
+<form action="/" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <input type="file" name="user_profile_image">
+    <br></br>
+    <button type="submit">Upload</button>
+</form>
+{% endblock %}

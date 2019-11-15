@@ -10,9 +10,10 @@ class User(UserMixin, BaseModel):
     email = pw.CharField(null=False, unique=True)
     password = pw.CharField(null=False)
     role = pw.TextField(default='user')
-    profile = pw.TextField(null=True)
+    img_Profile = pw.TextField(null=True)
 
     #validation on sign up page
+    # @staticmethod
     def validate(self):
         duplicate_username = User.get_or_none(User.username == self.username)
         duplicate_email = User.get_or_none(User.email == self.email)
@@ -25,6 +26,10 @@ class User(UserMixin, BaseModel):
             self.errors.append('Password length needs to have both uppercase and lowercase character, password should have at least one special character and no longer than 6 char')      
         else:
             self.password = generate_password_hash(self.password)
+
+        
+
+
 
 
             

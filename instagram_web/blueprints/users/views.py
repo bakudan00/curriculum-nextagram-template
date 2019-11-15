@@ -2,13 +2,22 @@ import peeweedbevolve
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from models.user import User
 from flask_login import login_user, login_required, current_user
+from ...util.helpers import *
 from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.utils import secure_filename
+from app import app
+
 
 
 users_blueprint = Blueprint('users',
                             __name__,
                             template_folder='templates')
 
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+def allowed_file(filename):
+    return '.'in filename and \
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @users_blueprint.route('/new', methods=['GET'])
 def new():
@@ -50,6 +59,32 @@ def edit(id):
         return render_template('users/edit.html', id=id)
 
 @users_blueprint.route('/<id>', methods=['POST'])
+@login_required
+def upload_user(id):
+    # breakpoint()
+    if 'user_profile_image' not in request.files:
+        flash('file did not select yet')
+        return redirect(url_for('users.edit', id=id))
+    
+    file = request.files['user_profile_image']
+
+    if file.filename == "":
+        flash('Please select a file')
+        return redirect(url_for('users.edit', id=id))
+    else:
+        if file and allowed_file(file.filename):
+            file.filename = secure_filename(file.filename)
+            output = upload_file_to_s3(file, app.config["S3_BUCKET"])
+            # update_user = user.update(user.img_Profile=file)where.(user.id = current_user.id)
+            # update_user.execute()
+            flash('Upload' + ' ' + str(output) + ' ' + 'completed!')           
+            return redirect(url_for('users.edit', id=id))
+        else:
+            return redirect(url_for('users.edit', id=id))
+
+
+@users_blueprint.route('/<id>', methods=['POST'])
+@login_required
 def update(id):
     return "USERS"
 
